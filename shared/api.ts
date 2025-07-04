@@ -10,3 +10,16 @@
 export interface DemoResponse {
   message: string;
 }
+
+/**
+ * Background removal API types
+ */
+export interface BackgroundRemovalRequest {
+  imageData: string; // base64 encoded image
+}
+
+export interface BackgroundRemovalResponse {
+  success: boolean;
+  processedImageUrl?: string;
+  error?: string;
+}
