@@ -109,6 +109,12 @@ export default function Index() {
         body: JSON.stringify(request),
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("API Error:", response.status, errorText);
+        throw new Error(`API Error: ${response.status} - ${errorText}`);
+      }
+
       const data: BackgroundRemovalResponse = await response.json();
 
       if (data.success && data.processedImageUrl) {
