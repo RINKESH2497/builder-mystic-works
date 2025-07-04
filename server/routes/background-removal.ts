@@ -1,6 +1,4 @@
 import { RequestHandler } from "express";
-import { removeBackgroundFromImageBase64 } from "remove.bg";
-import sharp from "sharp";
 import {
   BackgroundRemovalRequest,
   BackgroundRemovalResponse,
@@ -26,12 +24,14 @@ export const handleBackgroundRemoval: RequestHandler = async (req, res) => {
       console.log("No API key provided, creating mock response with Sharp");
 
       try {
+        const sharp = await import("sharp");
         // Convert base64 to buffer
         const imageBuffer = Buffer.from(imageData, "base64");
 
         // Process with Sharp to create a mock background removal effect
         // This creates a basic mask effect - in production use real AI service
-        const processedBuffer = await sharp(imageBuffer)
+        const processedBuffer = await sharp
+          .default(imageBuffer)
           .png()
           .modulate({
             brightness: 1.1,
@@ -66,6 +66,7 @@ export const handleBackgroundRemoval: RequestHandler = async (req, res) => {
     }
 
     // Real API call when API key is available
+    const { removeBackgroundFromImageBase64 } = await import("remove.bg");
     const result = await removeBackgroundFromImageBase64({
       base64img: imageData,
       apiKey: apiKey,
