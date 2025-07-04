@@ -1,6 +1,4 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { removeBackgroundFromImageBase64 } from "remove.bg";
-import sharp from "sharp";
 import {
   BackgroundRemovalRequest,
   BackgroundRemovalResponse,
@@ -46,11 +44,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.log("No API key provided, creating mock response with Sharp");
 
       try {
+        const sharp = await import("sharp");
         // Convert base64 to buffer
         const imageBuffer = Buffer.from(imageData, "base64");
 
         // Process with Sharp to create a mock background removal effect
-        const processedBuffer = await sharp(imageBuffer)
+        const processedBuffer = await sharp
+          .default(imageBuffer)
           .png()
           .modulate({
             brightness: 1.1,
@@ -85,6 +85,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Real API call when API key is available
+    const { removeBackgroundFromImageBase64 } = await import("remove.bg");
     const result = await removeBackgroundFromImageBase64({
       base64img: imageData,
       apiKey: apiKey,
