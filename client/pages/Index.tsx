@@ -29,6 +29,13 @@ export default function Index() {
   const [processedImage, setProcessedImage] = useState<ProcessedImage | null>(
     null,
   );
+
+  console.log(
+    "Index component rendering, uploadedImage:",
+    !!uploadedImage,
+    "processedImage:",
+    !!processedImage,
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
