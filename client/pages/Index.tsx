@@ -193,6 +193,14 @@ export default function Index() {
           </div>
 
           <div className="max-w-4xl mx-auto">
+            {/* Debug info */}
+            {process.env.NODE_ENV === "development" && (
+              <div className="text-white mb-4 text-sm">
+                Debug: uploadedImage={!!uploadedImage}, processedImage=
+                {!!processedImage}
+              </div>
+            )}
+
             {!uploadedImage && !processedImage && (
               /* Upload Area */
               <Card className="border-0 bg-white/10 backdrop-blur-md shadow-2xl animate-slide-up">
