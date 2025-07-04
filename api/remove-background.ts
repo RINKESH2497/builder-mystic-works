@@ -26,6 +26,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  console.log("API called, method:", req.method);
+  console.log("Has API key:", !!process.env.REMOVE_BG_API_KEY);
+
   try {
     const { imageData }: BackgroundRemovalRequest = req.body;
 
